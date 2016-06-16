@@ -140,8 +140,6 @@ namespace GlobalMachines
             return precio;
         }
 
-        //Pendientes propiedades de autor y precio
-
         public void SetSize(int Size)
         {
             size = Size;
@@ -167,6 +165,7 @@ namespace GlobalMachines
         {
             //agregar datos
             int i;
+
             for (i = 0; i < product.Length; i++)
             {
                 if (product[i].codigo_articulo == 0)

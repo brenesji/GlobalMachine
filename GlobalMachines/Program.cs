@@ -1,58 +1,107 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-
-namespace GlobalMachines
+namespace GlobalMachineSinObjetos
 {
     class Program
     {
-        static Productos Producto = new Productos();
-
         static int option = 0;
+        static int i = 0;
         static int size = 3;
 
+        static int totalFrituras = 0;
+        static int totalReposteria = 0;
+        static int totalGaseosos = 0;
+        static int totalNaturales = 0;
+        static int totalConfiteria = 0;
+        static int nivel1, nivel2, nivel3, nivel4, nivel5 = 0;
 
-        //[Flags]
-        //enum BookPrice
-        //{
-        //    Bajo = 500,
-        //    MedioBajo = 2500,
-        //    Medio = 5000,
-        //    MedioAlto = 7500,
-        //    Alto = 10000,
-        //};
+        struct product
+        {
+            public int codigo_articulo;
+            public string nombre_articulo;
+            public string tipo;
+            public string fecha_vencimiento;
+            public string nombre_proveedor;
+            public int posicion_estante;
+            public double precio;
+        };
+
+        static product[] products;
 
         static void AddProducts()
         {
-            //agregar libro
-            int r = 0, i = 0;
+            int r = 0;
             while (r != 1)
             {
                 Console.Clear();
-                if (i < Producto.size)
+                if (i < products.Length)
                 {
-                    Console.WriteLine("-* Bienvenido a Global Machine  *-*");
+                    Console.WriteLine("*-*   Global Machines  *-*");
                     Console.WriteLine("Ingreso de Productos.             ");
-                    Console.Write("Digite el ID:                  ");
-                    Producto.SetCodigo(int.Parse(Console.ReadLine()));
+                    Console.Write("Digite el Codigo del Producto:                  ");
+                    products[i].codigo_articulo = int.Parse(Console.ReadLine());
                     Console.Write("Digite el Nombre del Producto:    ");
-                    Producto.SetNombre(Console.ReadLine());
-                    Console.Write("Digite el Tipo del Producto:     ");
-                    Producto.SetTipo(Console.ReadLine());
-                    Console.Write("Digite la fecha de Vencimiento del Producto:     ");
-                    Producto.SetFecha(Console.ReadLine());
-                    Console.Write("Digite el Nombre del Proveedor del Producto:     ");
-                    Producto.SetProveedor(Console.ReadLine());
-                    Console.Write("Digite la Posicion en el estante del Producto:     ");
-                    Producto.SetPosicion(int.Parse(Console.ReadLine()));
-                    Console.Write("Digite el Precio del Producto:     ");
-                    Producto.SetPrecio(double.Parse(Console.ReadLine()));
-   
-                    if (Producto.AddData(Producto) == true)
-                        Console.WriteLine("Producto agregado correctamente");
+                    products[i].nombre_articulo = Console.ReadLine();
+                    Console.WriteLine("Frituras - Reposteria - Gaseosos - Naturales - Confiteria");
+                    Console.WriteLine("Seleccione el tipo del Producto:");
+                    products[i].tipo = Console.ReadLine();
+                    if (products[i].tipo == "frituras" || products[i].tipo == "FRITURAS")
+                    {
+                        totalFrituras = totalFrituras + 1;
+                    }
+                    else if (products[i].tipo == "reposteria" || products[i].tipo == "REPOSTERIA")
+                    {
+                        totalReposteria = totalReposteria + 1;
+                    }
+                    else if (products[i].tipo == "gaseosos" || products[i].tipo == "GASEOSOS")
+                    {
+                        totalGaseosos = totalGaseosos + 1;
+                    }
+                    else if (products[i].tipo == "naturales" || products[i].tipo == "NATURALES")
+                    {
+                        totalNaturales = totalNaturales + 1;
+                    }
+                    else if (products[i].tipo == "confiteria" || products[i].tipo == "CONFITERIA")
+                    {
+                        totalConfiteria = totalConfiteria + 1;
+                    }
                     else
-                        Console.WriteLine("Producto no agregado");
+                    {
+                        Console.WriteLine("Clasificacion Invalida");
+                    }
+                    Console.Write("Digite la Fecha de vencimiento del Producto: ");
+                    products[i].fecha_vencimiento = Console.ReadLine();
+                    Console.Write("Digite el proveedor del Producto: ");
+                    products[i].nombre_proveedor = Console.ReadLine();
+                    Console.Write("Digite la Posicion en el estante: (1 2 3 4 5)");
+                    products[i].posicion_estante = int.Parse(Console.ReadLine());
+                    if (products[i].posicion_estante == 1)
+                    {
+                        nivel1 = nivel1 + 1;
+                    }
+                    else if (products[i].posicion_estante == 2)
+                    {
+                        nivel2 = nivel2 + 1;
+                    }
+                    else if (products[i].posicion_estante == 3)
+                    {
+                        nivel3 = nivel3 + 1;
+                    }
+                    else if (products[i].posicion_estante == 4)
+                    {
+                        nivel4 = nivel4 + 1;
+                    }
+                    else
+                    {
+                        nivel5 = nivel5 + 1;
+                    }
+                    Console.WriteLine("Seleccione el precio del Producto:");
+                    products[i].precio = double.Parse(Console.ReadLine());
                     Console.WriteLine("Desea agregar otro Producto 0-Sí 1-No");
                     r = int.Parse(Console.ReadLine());
                     i++;
@@ -66,414 +115,332 @@ namespace GlobalMachines
             }
 
         }
-
-        static void ShowProducts()
-        {
-            //listar libros
-            int reg = 0, i;
-            Console.Clear();
-            Console.WriteLine("-* Global Machines  *-*");
-            Console.WriteLine("Listado de Productos.             ");
-            for (i = 0; i < Producto.size; i++)
-            {
-                Producto.PrintData(i);
-                reg = i + 1;
-                Console.WriteLine("Registro:    " + reg);
-                Console.WriteLine("ID:          " + Producto.GetCodigo());
-                Console.WriteLine("Nombre:      " + Producto.GetNombre());
-                Console.WriteLine("Tipo:        " + Producto.GetTipo());
-                Console.WriteLine("Vencimiento: " + Producto.GetFecha());
-                Console.WriteLine("Proveedor:   " + Producto.GetProveedor());
-                Console.WriteLine("Nivel:       " + Producto.GetPosicion());
-                Console.WriteLine("Precio:      " + Producto.GetPrecio());
-                Console.WriteLine("************************************");
-
-                /*Console.WriteLine("Auto:     " + );
-                Console.WriteLine("Precio:   " + );*/
-            }
-            Console.ReadKey();
-        }
-
-        static void SeekProducts()
-        {
-            //buscar libro
-            int ID = 0, reg = 0, r = 0;
-            while (r != 1)
-            {
-                Console.Clear();
-                Console.WriteLine("-* Global Machines  *-*");
-                Console.WriteLine("Búsquedad de Productos.           ");
-                Console.WriteLine("Digite el ID del Producto a buscar");
-                ID = int.Parse(Console.ReadLine());
-                if (Producto.SeekData(ID) == true)
-                {
-                    reg = ID;
-                    Console.WriteLine("Registro1: " + reg);
-                    Console.WriteLine("ID:       " + Producto.GetCodigo());
-                    Console.WriteLine("Nombre:      " + Producto.GetNombre());
-                    Console.WriteLine("Tipo:        " + Producto.GetTipo());
-                    Console.WriteLine("Vencimiento: " + Producto.GetFecha());
-                    Console.WriteLine("Proveedor:   " + Producto.GetProveedor());
-                    Console.WriteLine("Nivel:       " + Producto.GetPosicion());
-                    Console.WriteLine("Precio:      " + Producto.GetPrecio());
-                    Console.WriteLine("************************************");
-
-                    /*Console.WriteLine("Auto:     " + );
-                    Console.WriteLine("Precio:   " + );*/
-                }
-                else
-                    Console.WriteLine("No se encontro ese ID");
-                Console.WriteLine("Desea buscar otro libro 0-Sí 1-No");
-                r = int.Parse(Console.ReadLine());
-            }
-        }
-
         static void ModifyProducts()
         {
-            int ID = 0, reg = 0, r = 0;
-            while (r != 1)
-            {
-                Console.Clear();
-                Console.WriteLine("-* Global Machine  *-*");
-                Console.WriteLine("Modificacion de Productos.           ");
-                Console.WriteLine("Digite el ID del Producto a Modificar");
-                ID = int.Parse(Console.ReadLine());
-
-                Console.Write("Digite el Tipo del Producto:     ");
-                Producto.SetTipo(Console.ReadLine());
-                Console.Write("Digite la fecha de Vencimiento del Producto:     ");
-                Producto.SetFecha(Console.ReadLine());
-                Console.Write("Digite el Nombre del Proveedor del Producto:     ");
-                Producto.SetProveedor(Console.ReadLine());
-                Console.Write("Digite la Posicion en el estante del Producto:     ");
-                Producto.SetPosicion(int.Parse(Console.ReadLine()));
-                Console.Write("Digite el Precio del Producto:     ");
-                Producto.SetPrecio(double.Parse(Console.ReadLine()));
-
-                Producto.UpdateData(Producto, ID);
-                r = 1;
-            }
-
-        }
-
-        static void DeleteProducts()
-        {
-            //eliminar libro
-            int ID, i = 0;
+            int ID = 0;
             int reg = 0;
             int r = 0;
             bool found = false;
             while (r != 1)
             {
-                Console.Clear();
-                Console.WriteLine("-* Global Machines  *-*");
-                Console.WriteLine("Cual Producto desea eliminar.           ");
-                Console.WriteLine("Digite el ID del libro a eliminar");
+                Console.WriteLine("*-*   Global Machines  *-*");
+                Console.WriteLine("Modificacion de productos.             ");
+                Console.WriteLine("Digite el codigo del articulo a modificar");
                 ID = int.Parse(Console.ReadLine());
-                for (i = 0; i < Producto.size; i++)
+                for (i = 0; i < products.Length; i++)
                 {
-                    Producto.DeleteData(Producto, ID);
+                    if (ID == products[i].codigo_articulo)
+                    {
+                        reg = i + 1;
+                        Console.Write("Digite el nombre del articulo:    ");
+                        products[i].nombre_articulo = Console.ReadLine();
+                        Console.Write("Digite el nombre del proveedor:    ");
+                        products[i].nombre_proveedor = Console.ReadLine();
+                        Console.Write("Digite el precio del articulo:     ");
+                        products[i].precio = int.Parse(Console.ReadLine());
+                        Console.Write("Digite la fecha de vencimiento:     ");
+                        products[i].fecha_vencimiento = Console.ReadLine();
+                        Console.Write("Digite el tipo de articulo:    ");
+                        products[i].tipo = Console.ReadLine();
+                        if (products[i].tipo == "frituras" || products[i].tipo == "FRITURAS")
+                        {
+                            totalFrituras = totalFrituras + 1;
+                        }
+                        else if (products[i].tipo == "reposteria" || products[i].tipo == "REPOSTERIA")
+                        {
+                            totalReposteria = totalReposteria + 1;
+                        }
+                        else if (products[i].tipo == "gaseosos" || products[i].tipo == "GASEOSOS")
+                        {
+                            totalGaseosos = totalGaseosos + 1;
+                        }
+                        else if (products[i].tipo == "naturales" || products[i].tipo == "NATURALES")
+                        {
+                            totalNaturales = totalNaturales + 1;
+                        }
+                        else if (products[i].tipo == "confiteria" || products[i].tipo == "CONFITERIA")
+                        {
+                            totalConfiteria = totalConfiteria + 1;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Clasificacion Invalida");
+                        }
+                        Console.Write("Digite el nivel donde esta el articulo:     ");
+                        products[i].posicion_estante = int.Parse(Console.ReadLine());
+
+                        if (products[i].posicion_estante == 1)
+                        {
+                            nivel1 = nivel1 + 1;
+                        }
+                        else if (products[i].posicion_estante == 2)
+                        {
+                            nivel2 = nivel2 + 1;
+                        }
+                        else if (products[i].posicion_estante == 3)
+                        {
+                            nivel3 = nivel3 + 1;
+                        }
+                        else if (products[i].posicion_estante == 4)
+                        {
+                            nivel4 = nivel4 + 1;
+                        }
+                        else
+                        {
+                            nivel5 = nivel5 + 1;
+                        }
+                        Console.WriteLine("Seleccione el precio del Producto:");
+                        products[i].precio = double.Parse(Console.ReadLine());
+                        found = true;
+                    }
                 }
                 if (!found)
                 {
                     Console.WriteLine("No se encontro ese ID");
                     found = false;
                 }
-                Console.WriteLine("Desea eliminar otro libro 0-Sí 1-No");
-                r = int.Parse(Console.ReadLine());
+                else
+                {
+                    Console.WriteLine("Desea modificar otro Producto 0-Sí 1-No");
+                    r = int.Parse(Console.ReadLine());
+                }
             }
         }
-
-        static void VentaProducts()
+        static void DeleteProducts()
         {
-
-            string CustomerName, CelPhone;
-            int reg = 0, i;
-            //int NumberOfBook1 = 0, NumberOfBook2 = 0, NumberOfBook3 = 0, NumberOfBook4 = 0, NumberOfBook5 = 0;
-            //int NumberOfBook6 = 0, NumberOfBook7 = 0, NumberOfBook8 = 0, NumberOfBook9 = 0, NumberOfBook10 = 0;
-            //double BookPrice1 = 0, BookPrice2 = 0, BookPrice3 = 0, BookPrice4 = 0, BookPrice5 = 0;
-            //double BookPrice6 = 0, BookPrice7 = 0, BookPrice8 = 0, BookPrice9 = 0, BookPrice10 = 0;
-            //double TotalDiscount = 0, TotalOrder = 0, TaxAmount = 0, SalesTotal = 0;
-            //double AmountTended, Difference;
-            Console.Clear();
-            Console.WriteLine("*-* Global Machines *-*");
-            Console.WriteLine("Ingrese la siguiente información");
-            Console.Write("Nombre Cliente  : ");
-            CustomerName = Console.ReadLine();
-            Console.Write("Teléfono Cliente: ");
-            CelPhone = Console.ReadLine();
-            Console.WriteLine("\nDesglose de Productos");
-
-            Console.WriteLine("Listado de Productos.             ");
-            Console.WriteLine("Codigo \tNombre\tTipo\tFecha\tProveedor\tNivel\tPrecio");
-            for (i = 0; i < Producto.size; i++)
+            int codigo_articulo = 0;
+            int resp = 0;
+            bool found = false;
+            while (resp != 1)
             {
-                Producto.PrintData(i);
+                Console.Clear();
+                Console.WriteLine("*-*   Global Machines  *-*");
+                Console.WriteLine("Eliminado de Productos");
+                Console.WriteLine("Digite el Codigo del Producto a Eliminar");
+                codigo_articulo = int.Parse(Console.ReadLine());
+                for (i = 0; i < products.Length; i++)
+                {
+                    if (products[i].codigo_articulo == codigo_articulo)
+                    {
+                        products[i].codigo_articulo = 0;
+                        products[i].nombre_articulo = "";
+                        products[i].nombre_proveedor = "";
+                        products[i].tipo = "";
+                        products[i].fecha_vencimiento = "";
+                        products[i].posicion_estante = 0;
+                        products[i].precio = 0;
+                        found = true;
+                    }
+                    if (!found)
+                    {
+                        Console.WriteLine("No se encontro ese Codigo");
+                        found = false;
+                    }
+
+                }
+                Console.WriteLine("Desea Eliminar otro Producto 0-Sí 1-No");
+                resp = int.Parse(Console.ReadLine());
+            }
+        }
+        static void SeekProducts()
+        {
+
+            int codigo_articulo = 0;
+            int registro = 0;
+            int resp = 0;
+            bool found = false;
+            while (resp != 1)
+            {
+                Console.Clear();
+                Console.WriteLine("*-* Global Machines  *-*");
+                Console.WriteLine("Busqueda de Productos.           ");
+                Console.WriteLine("Digite el codigo del Producto a buscar");
+                codigo_articulo = int.Parse(Console.ReadLine());
+                for (i = 0; i < products.Length; i++)
+                {
+                    if (codigo_articulo == products[i].codigo_articulo)
+                    {
+                        registro = i + 1;
+                        Console.WriteLine("Registro: " + registro);
+                        Console.WriteLine("Codigo del Producto:         " + products[i].codigo_articulo);
+                        Console.WriteLine("Nombre del producto:         " + products[i].nombre_articulo);
+                        Console.WriteLine("Tipo del producto:           " + products[i].tipo);
+                        Console.WriteLine("Vencimiento del producto:    " + products[i].fecha_vencimiento);
+                        Console.WriteLine("Proveedor:                   " + products[i].nombre_proveedor);
+                        Console.WriteLine("Posicion del producto:       " + products[i].posicion_estante);
+                        Console.WriteLine("Precio:                      " + products[i].precio);
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    Console.WriteLine("No se encontro ese Codigo");
+                    found = false;
+                }
+                Console.WriteLine("Desea buscar otro Producto 0-Sí 1-No");
+                resp = int.Parse(Console.ReadLine());
+            }
+        }
+        static void ShowProducts()
+        {
+            int reg = 0;
+            Console.Clear();
+            Console.Clear();
+            Console.WriteLine("===================================================================");
+            Console.WriteLine("*-*                  *-*  Global Machines  *-*                  *-*");
+            Console.WriteLine("===================================================================");
+            Console.WriteLine("*-*                    Listado de Articulos                     *-*");
+            Console.WriteLine("===================================================================");
+            Console.WriteLine("Reg\tID\tNombre\tTipo\tVence\tProveedor\tPosicion\tPrecio");
+            Console.WriteLine("-------------------------------------------------------------------");
+            for (i = 0; i < products.Length; i++)
+            {
                 reg = i + 1;
+                Console.Write(reg);
+                Console.Write("\t" + products[i].codigo_articulo);
+                Console.Write("\t" + products[i].nombre_articulo);
+                Console.Write("\t" + products[i].tipo);
+                Console.Write("\t" + products[i].fecha_vencimiento);
+                Console.Write("\t" + products[i].nombre_proveedor);
+                Console.Write("\t" + products[i].posicion_estante);
+                Console.WriteLine("\t" + products[i].precio);
+
+            }
+            Console.WriteLine("Fin del Listado...\n\n");
+            Console.WriteLine("                  Global Machines  ");
+            Console.WriteLine("=====================================================");
+            Console.WriteLine("                  Listado de Productos             ");
+            Console.WriteLine("=====================================================");
+            Console.Write("Clasificacion          ||           Cantidad\n");
+            Console.Write("Frituras               ||          " + totalFrituras + "\n");
+            Console.Write("Reposteria             ||          " + totalReposteria + "\n");
+            Console.Write("Confiteria             ||          " + totalConfiteria + "\n");
+            Console.Write("Refrescos Gaseosos     ||          " + totalGaseosos + "\n");
+            Console.Write("Refrescos Naturales    ||          " + totalNaturales + "\n");
+            Console.Write("Nivel                  ||           Cantidad\n");
+            Console.Write("1                      ||          " + nivel1 + "\n");
+            Console.Write("2                      ||          " + nivel2 + "\n");
+            Console.Write("3                      ||          " + nivel3 + "\n");
+            Console.Write("4                      ||          " + nivel4 + "\n");
+            Console.Write("5                      ||          " + nivel5 + "\n");
+            Console.Write("========================================================\n");
+            Console.Write("Fin del Listado...");
 
 
-                Console.Write(Producto.GetCodigo() + "\t" + Producto.GetNombre() + "\t" + Producto.GetTipo()
-                    + "\t" + Producto.GetFecha() + "\t" + Producto.GetProveedor() + "\t" + Producto.GetPosicion()
-                    + "\t" + Producto.GetPrecio());
-                Console.ReadKey();
+            Console.ReadKey();
+        }
+        static void SellProducts()
+        {
+            int numero_telef = 0;
+            string nombre_cliente = "";
+            int desc = 0;
+            int imprimir, monto = 0;
+            int r, resp = 0;
+            int cantidad = 0;
+            double total = 0.0;
+            double subtotal = 0.0;
+            double totalcompra, impuvent, vuelto = 0;
+            while (resp != 1)
+            {
+                Console.Clear();
+                if (i < products.Length)
+                {
+                    Console.WriteLine("*-* Global Machine *-*");
+                    Console.WriteLine("--Venta de Productos--");
+                    Console.WriteLine("Digite el nombre del cliente: ");
+                    nombre_cliente = Console.ReadLine();
+                    Console.WriteLine("Digite el telefono del cliente: ");
+                    numero_telef = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Seleccione el Codigo de producto que desee: ");
+                    products[i].codigo_articulo = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Seleccione la Cantidad que desea: ");
+                    cantidad = int.Parse(Console.ReadLine());
+                    subtotal = products[i].precio * cantidad;
+                    total = subtotal + total;
+                    Console.WriteLine("Desea agregar otro Producto 0-Sí 1-No");
+                    r = int.Parse(Console.ReadLine());
+
+                    //haciendo calculos
+                    impuvent = total * 0.13;
+                    totalcompra = total - impuvent;
+                    vuelto = monto - totalcompra;
+
+                    Console.WriteLine("Con que monto desea cancelar: ");
+                    monto = int.Parse(Console.ReadLine());
+                    if (monto < total)
+                    {
+                        Console.WriteLine("Disculpe el monto no es suficiente, digite otra cantidad");
+                    }
+
+                    Console.WriteLine("============================================");
+                    Console.WriteLine("          ** Global Machine  **");
+                    Console.WriteLine("============================================");
+                    Console.WriteLine("Factura Proforma Nro: 0001");
+                    Console.WriteLine("Cliente:" + nombre_cliente);
+                    Console.WriteLine("Telefono: " + numero_telef);
+                    Console.WriteLine("____________________________________________");
+                    Console.WriteLine("Item\tCtd\tPrecio Unit");
+                    Console.Write(products[i].nombre_articulo + "\t" + cantidad + "\t" + products[i].precio + "\t");
+                    Console.WriteLine("============================================");
+                    Console.WriteLine("Total Orden:                             " + totalcompra);
+                    Console.WriteLine("Descuento:                               " + desc);
+                    Console.WriteLine("Impuesto de Venta:                       " + impuvent);
+                    Console.WriteLine("Precio Neto:                             " + total);
+                    Console.WriteLine("____________________________________________");
+                    Console.WriteLine("Monto Recibido:                          " + monto);
+                    Console.WriteLine("Monto Cambio:                            " + vuelto);
+                    Console.WriteLine("____________________________________________");
+                    Console.WriteLine("Gracias Por su compra...");
+
+                    i++;
+                }
+
+
+                Console.WriteLine("Desea Imprimir en archivo:\n0-Si\n1-No");
+                imprimir = int.Parse(Console.ReadLine());
+                if (imprimir == 0)
+                { PrintInvoice(); }
+
+                Console.WriteLine("Desea Continuar en el menu:\n0-Si\n1-No");
+                resp = int.Parse(Console.ReadLine());
+                if (resp == 0)
+                { PrintInvoice(); }
             }
         }
 
-        //    Console.Write("\nMonto a Cancelar: ");
-        //    Console.WriteLine("{0:N2}", SalesTotal);
-        //    Console.Write("Monto Ahorro: ");
-        //    Console.WriteLine("{0:N2}", TotalDiscount);
-        //returnflag:
-        //    Console.Write("Digite el Monto con que Cancela: ");
-        //    AmountTended = double.Parse(Console.ReadLine());
-        //    if (AmountTended >= SalesTotal)
-        //        Difference = AmountTended - SalesTotal;
-        //    else
-        //    {
-        //        Console.WriteLine("Monto insuficiente..Intente de nuevo por favor");
-        //        goto returnflag;
-        //    }
-        //    Console.WriteLine("Presione Enter para Imprimir la Factura");
-        //    Console.ReadKey();
-
-        //    Imprimiendo la factura
-        //    Console.Clear();
-        //    Console.WriteLine("===================================================================");
-        //    Console.WriteLine("*-*                  Librería El Buen Lector                    *-*");
-        //    Console.WriteLine("===================================================================");
-        //    Console.WriteLine(" Factura Proforma\t\t\t\t\t    N°0001");
-        //    Console.Write(" Cliente : ");
-        //    Console.WriteLine(CustomerName);
-        //    Console.Write(" Teléfono: ");
-        //    Console.WriteLine(CelPhone);
-        //    Console.WriteLine("-------------------------------------------------------------------");
-        //    Console.WriteLine(" Item\t\t\t\tCtd\tPrecio\t\tSubTotal");
-        //    Console.WriteLine("-------------------------------------------------------------------");
-        //    if (NumberOfBook1 > 0)
-        //    {
-        //        Console.Write(" El Señor de los anillos, las..");
-        //        Console.Write("\t" + NumberOfBook1);
-        //        Console.Write("\t¢{0:N2}", BookPrice1);
-        //        Console.WriteLine("\t¢{0:N2}", NumberOfBook1 * BookPrice1);
-        //    }
-        //    if (NumberOfBook2 > 0)
-        //    {
-
-
-        //        Console.ReadKey();
-        //    }
-
-            //        Console.WriteLine("Nombre:      " + Producto.GetNombre());
-            //        Console.WriteLine("Tipo:        " + Producto.GetTipo());
-            //        Console.WriteLine("Vencimiento: " + Producto.GetFecha());
-            //        Console.WriteLine("Proveedor:   " + Producto.GetProveedor());
-            //        Console.WriteLine("Nivel:       " + Producto.GetPosicion());
-            //        Console.WriteLine("Precio:      " + Producto.GetPrecio());
-            //        Console.WriteLine("************************************");
-
-            //        /*Console.WriteLine("Auto:     " + );
-            //        Console.WriteLine("Precio:   " + );*/
-            //    }
-            //}
-            //    Console.WriteLine("Libro \t\t\t\t\t\tCategoría\tCantidad");
-            //    Console.Write("El Señor de los anillos, Las dos torres\t\tFantasía\t");
-            //    NumberOfBook1 = int.Parse(Console.ReadLine());
-            //    BookPrice1 = BookPriceMediumHigh;
-            //    Console.Write("Alicia en el país de la Maravillas\t\tInfantil\t");
-            //    NumberOfBook2 = int.Parse(Console.ReadLine());
-            //    BookPrice2 = BookPriceMedium;
-            //    Console.Write("Cementerio de Mascotas\t\t\t\tMisterio\t");
-            //    NumberOfBook3 = int.Parse(Console.ReadLine());
-            //    BookPrice3 = BookPriceMediumLow;
-            //    Console.Write("Quiero aprender\t\t\t\t\tEducativo\t");
-            //    NumberOfBook4 = int.Parse(Console.ReadLine());
-            //    BookPrice4 = BookPriceLow;
-            //    Console.Write("El poder del pensamiento Positivo\t\tSuperación\t");
-            //    NumberOfBook5 = int.Parse(Console.ReadLine());
-            //    BookPrice5 = BookPriceMedium;
-            //    Console.Write("Mi primer libro de matemáticas\t\t\tEducativo\t");
-            //    NumberOfBook6 = int.Parse(Console.ReadLine());
-            //    BookPrice6 = BookPriceLow;
-            //    Console.Write("Las aventuras de Tom Sawyer\t\t\tInfantil\t");
-            //    NumberOfBook7 = int.Parse(Console.ReadLine());
-            //    BookPrice7 = BookPriceMediumHigh;
-            //    Console.Write("El mago de Oz\t\t\t\t\tFantasía\t");
-            //    NumberOfBook8 = int.Parse(Console.ReadLine());
-            //    BookPrice8 = BookPriceMediumLow;
-            //    Console.Write("La zona muerta\t\t\t\t\tMisterio\t");
-            //    NumberOfBook9 = int.Parse(Console.ReadLine());
-            //    BookPrice9 = BookPriceHigh;
-            //    Console.Write("Viaje al centro de la tierra\t\t\tCiencia ficción\t");
-            //    NumberOfBook10 = int.Parse(Console.ReadLine());
-            //    BookPrice10 = BookPriceHigh;
-
-            //    //Ejecutando los cálculos
-            //    TotalOrder = TotalOrder + NumberOfBook1 * BookPrice1;
-            //    TotalDiscount = TotalDiscount + BookPrice1 * NumberOfBook1 * DiscountFantasy;
-            //    TotalOrder += NumberOfBook2 * BookPrice2;
-            //    TotalDiscount += BookPrice2 * NumberOfBook2 * DiscountChildren;
-            //    TotalOrder += NumberOfBook3 * BookPrice3;
-            //    TotalDiscount += BookPrice3 * NumberOfBook3 * DiscountMistery;
-            //    TotalOrder += NumberOfBook4 * BookPrice4;
-            //    TotalDiscount += BookPrice4 * NumberOfBook4 * DiscountEducational;
-            //    TotalOrder += NumberOfBook5 * BookPrice5;
-            //    TotalDiscount += BookPrice5 * NumberOfBook5 * DiscountOther;
-            //    TotalOrder += NumberOfBook6 * BookPrice6;
-            //    TotalDiscount += BookPrice6 * NumberOfBook6 * DiscountEducational;
-            //    TotalOrder += NumberOfBook7 * BookPrice7;
-            //    TotalDiscount += BookPrice7 * NumberOfBook7 * DiscountChildren;
-            //    TotalOrder += NumberOfBook8 * BookPrice8;
-            //    TotalDiscount += BookPrice8 * NumberOfBook8 * DiscountFantasy;
-            //    TotalOrder += NumberOfBook9 * BookPrice9;
-            //    TotalDiscount += BookPrice9 * NumberOfBook9 * DiscountMistery;
-            //    TotalOrder += NumberOfBook10 * BookPrice10;
-            //    TotalDiscount += BookPrice10 * NumberOfBook10 * DiscountOther;
-            //    TaxAmount = (TotalOrder - TotalDiscount) * TaxRate;
-            //    SalesTotal = TotalOrder - TotalDiscount + TaxAmount;
-
-            //    //Haciendo el cobro
-            //    Console.Write("\nMonto a Cancelar: ");
-            //    Console.WriteLine("{0:N2}", SalesTotal);
-            //    Console.Write("Monto Ahorro: ");
-            //    Console.WriteLine("{0:N2}", TotalDiscount);
-            //returnflag:
-            //    Console.Write("Digite el Monto con que Cancela: ");
-            //    AmountTended = double.Parse(Console.ReadLine());
-            //    if (AmountTended >= SalesTotal)
-            //        Difference = AmountTended - SalesTotal;
-            //    else
-            //    {
-            //        Console.WriteLine("Monto insuficiente..Intente de nuevo por favor");
-            //        goto returnflag;
-            //    }
-            //    Console.WriteLine("Presione Enter para Imprimir la Factura");
-            //    Console.ReadKey();
-
-            //    //Imprimiendo la factura
-            //    Console.Clear();
-            //    Console.WriteLine("===================================================================");
-            //    Console.WriteLine("*-*                  Librería El Buen Lector                    *-*");
-            //    Console.WriteLine("===================================================================");
-            //    Console.WriteLine(" Factura Proforma\t\t\t\t\t    N°0001");
-            //    Console.Write(" Cliente : ");
-            //    Console.WriteLine(CustomerName);
-            //    Console.Write(" Teléfono: ");
-            //    Console.WriteLine(CelPhone);
-            //    Console.WriteLine("-------------------------------------------------------------------");
-            //    Console.WriteLine(" Item\t\t\t\tCtd\tPrecio\t\tSubTotal");
-            //    Console.WriteLine("-------------------------------------------------------------------");
-            //    if (NumberOfBook1 > 0)
-            //    {
-            //        Console.Write(" El Señor de los anillos, las..");
-            //        Console.Write("\t" + NumberOfBook1);
-            //        Console.Write("\t¢{0:N2}", BookPrice1);
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook1 * BookPrice1);
-            //    }
-            //    if (NumberOfBook2 > 0)
-            //    {
-            //        Console.Write(" Alicia en el país de las mar..");
-            //        Console.Write("\t" + NumberOfBook2);
-            //        Console.Write("\t¢{0:N2}", BookPrice2);
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook2 * BookPrice2);
-            //    }
-            //    if (NumberOfBook3 > 0)
-            //    {
-            //        Console.Write(" Cementerio de Mascotas   ");
-            //        Console.Write("\t" + NumberOfBook3);
-            //        Console.Write("\t¢{0:N2}", BookPrice3);
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook3 * BookPrice3);
-            //    }
-            //    if (NumberOfBook4 > 0)
-            //    {
-            //        Console.Write(" Quiero aprender          ");
-            //        Console.Write("\t" + NumberOfBook4);
-            //        Console.Write("\t¢{0:N2}", BookPrice4 + "   ");
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook4 * BookPrice4);
-            //    }
-            //    if (NumberOfBook5 > 0)
-            //    {
-            //        Console.Write(" El poder del pensamiento Pos..");
-            //        Console.Write("\t" + NumberOfBook5);
-            //        Console.Write("\t¢{0:N2}", BookPrice5);
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook5 * BookPrice5);
-            //    }
-            //    if (NumberOfBook6 > 0)
-            //    {
-            //        Console.Write(" Mi primer libro de matemátic..");
-            //        Console.Write("\t" + NumberOfBook6);
-            //        Console.Write("\t¢{0:N2}", BookPrice6 + "   ");
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook6 * BookPrice6);
-            //    }
-            //    if (NumberOfBook7 > 0)
-            //    {
-            //        Console.Write(" Las aventuras de Tom Sawyer");
-            //        Console.Write("\t" + NumberOfBook7);
-            //        Console.Write("\t¢{0:N2}", BookPrice7);
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook7 * BookPrice7);
-            //    }
-            //    if (NumberOfBook8 > 0)
-            //    {
-            //        Console.Write(" El mago de Oz            ");
-            //        Console.Write("\t" + NumberOfBook8);
-            //        Console.Write("\t¢{0:N2}", BookPrice8);
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook8 * BookPrice8);
-            //    }
-            //    if (NumberOfBook9 > 0)
-            //    {
-            //        Console.Write(" La zona muerta           ");
-            //        Console.Write("\t" + NumberOfBook9);
-            //        Console.Write("\t¢{0:N2}", BookPrice9);
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook9 * BookPrice9);
-            //    }
-            //    if (NumberOfBook10 > 0)
-            //    {
-            //        Console.Write(" Viaje al centro de la tierra");
-            //        Console.Write("\t" + NumberOfBook10);
-            //        Console.Write("\t¢{0:N2}", BookPrice10);
-            //        Console.WriteLine("\t¢{0:N2}", NumberOfBook10 * BookPrice10);
-            //    }
-            //    Console.WriteLine("-------------------------------------------------------------------");
-            //    Console.Write(" Total Orden:    \t\t\t\t\t");
-            //    Console.WriteLine("¢{0:N2}", TotalOrder);
-            //    Console.Write(" Total Descuento:    \t\t\t\t\t");
-            //    Console.WriteLine("¢{0:N2}", TotalDiscount);
-            //    Console.Write(" Impuesto Venta: \t\t\t\t\t");
-            //    Console.WriteLine(TaxRate * 100 + "%");
-            //    Console.Write(" Impuesto Total: \t\t\t\t\t");
-            //    Console.WriteLine("¢{0:N2}", TaxAmount);
-            //    Console.Write(" Precio Neto:    \t\t\t\t\t");
-            //    Console.WriteLine("¢{0:N2}", SalesTotal);
-            //    Console.WriteLine("-------------------------------------------------------------------");
-            //    Console.Write(" Monto Recibido:");
-            //    Console.WriteLine("¢{0:N2}", AmountTended);
-            //    Console.Write(" Monto Cambio  :");
-            //    Console.WriteLine("¢{0:N2}", Difference);
-            //    Console.WriteLine("===================================================================");
-            //    Console.Write(" Gracias por comprar con nosotros...");
-            //    Console.ReadKey();
-            //    return 0;
-            //}
-
-
-
-            static void Main()
+        static void PrintInvoice()
         {
-            //inicializar el objeto
-            Producto.SetSize(size);
-            Producto.Initdata();
-                   
+            string currentPath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.FullName);
+            Console.WriteLine(currentPath + @"\Invoice.txt");
+
+            StreamWriter sw = new StreamWriter(currentPath + @"\Invoice.txt");
+            //Imprimiendo la factura
+            // ShowArt();
+            sw.WriteLine("===================================================================");
+            sw.WriteLine("*-*                       Global Machines                       *-*");
+            sw.WriteLine("===================================================================");
+            sw.WriteLine("*-*                    Listado de Articulos                     *-*");
+            sw.WriteLine("===================================================================");
+
+            sw.Write(" Gracias por comprar con nosotros...");
+            sw.Close();
+        }
+
+        static void Main(string[] args)
+        {
+            products = new product[size];
             do
             {
                 Console.Clear();
-                Console.WriteLine("-* Global Machines  *-*");
-                Console.WriteLine("1. Ingreso de Productos.");
-                Console.WriteLine("2. Modificación de Productos.");
-                Console.WriteLine("3. Eliminación de Productos.");
-                Console.WriteLine("4. Búsquedad de Productos.");
-                Console.WriteLine("5. Listado de Productos.");
-                Console.WriteLine("6. Venta de Productos.");
+                Console.WriteLine("*-* Global Machines  *-*");
+                Console.WriteLine("1. Ingreso de productos.");
+                Console.WriteLine("2. Modificación de productos.");
+                Console.WriteLine("3. Eliminación de productos.");
+                Console.WriteLine("4. Búsquedad de productos.");
+                Console.WriteLine("5. Listado de productos.");
+                Console.WriteLine("6. Venta de productos.");
                 Console.WriteLine("7. Salir.");
-                Console.WriteLine("Selecciones una opción");
+                Console.WriteLine("Seleccione una opción");
                 option = int.Parse(Console.ReadLine());
                 switch (option)
                 {
@@ -484,19 +451,16 @@ namespace GlobalMachines
                         }
                     case 2:
                         {
-                            //Modificar la información
                             ModifyProducts();
                             break;
                         }
                     case 3:
                         {
-                            //Eliminar información dejando campos en 0 o vacío
                             DeleteProducts();
                             break;
                         }
                     case 4:
                         {
-                            //SeekBooks();
                             SeekProducts();
                             break;
                         }
@@ -507,9 +471,7 @@ namespace GlobalMachines
                         }
                     case 6:
                         {
-                                //Venta similar a tarea1
-                                VentaProducts();
-                            //PrintInvoice();
+                            SellProducts();
                             break;
                         }
                     case 7:
@@ -517,7 +479,7 @@ namespace GlobalMachines
                         break;
                     default:
                         {
-                            Console.WriteLine("Seleccione inválida..");
+                            Console.WriteLine("Seleccion no Valida...\n Selecione una opcion valida");
                             Console.ReadKey();
                             Console.Clear();
                             break;
