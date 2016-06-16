@@ -1,0 +1,6 @@
+c:\users\jbrenesjimene\documents\visual studio 2015\Projects\GlobalMachines\GlobalMachines\bin\Debug\GlobalMachines.exe.config
+c:\users\jbrenesjimene\documents\visual studio 2015\Projects\GlobalMachines\GlobalMachines\obj\Debug\GlobalMachines.csprojResolveAssemblyReference.cache
+c:\users\jbrenesjimene\documents\visual studio 2015\Projects\GlobalMachines\GlobalMachines\bin\Debug\GlobalMachines.exe
+c:\users\jbrenesjimene\documents\visual studio 2015\Projects\GlobalMachines\GlobalMachines\bin\Debug\GlobalMachines.pdb
+c:\users\jbrenesjimene\documents\visual studio 2015\Projects\GlobalMachines\GlobalMachines\obj\Debug\GlobalMachines.exe
+c:\users\jbrenesjimene\documents\visual studio 2015\Projects\GlobalMachines\GlobalMachines\obj\Debug\GlobalMachines.pdb
